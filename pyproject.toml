@@ -5,13 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "coruscant"
 version = "0.1.0"
-description = "The ecumenopolis where you can find anything you need. Maybe"
+description = "The ecumenopolis where you can find anything you need. Maybe."
 authors = [
-    {
-        name = "Jean Choppin de Janvry", 
-        email = "jean.choppindejanvrydev@gmail.com"
-    }
+    { name = "Jean Choppin de Janvry", email = "jean.choppindejanvrydev@gmail.com" }
 ]
+
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
@@ -25,6 +23,18 @@ dev = [
     "black",
     "flake8",
 ]
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+)/
+'''
 
 [tool.setuptools.packages.find]
 where = ["."]
