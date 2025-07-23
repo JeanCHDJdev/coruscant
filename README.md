@@ -12,7 +12,16 @@ Coruscant, the world city, the ecumenopolis, capital of the Old Republic. And al
 
 ### Installation : 
 ------------------
-WIP :
+
+To install within it's own conda environment (`coruscant`)
+```bash
+make install-env
 ```
-pip install -e .
+To install by appending to an existing environment through `pip`
+```bash
+make install
 ```
+
+### Format :
+------------
+coruscant provides a format check
