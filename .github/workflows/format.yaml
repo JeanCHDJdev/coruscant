@@ -4,12 +4,12 @@ on:
   push:
     paths:
       - "**.py"
-      - ".github/workflows/black-check.yml"
+      - ".github/workflows/format.yml"
       - "pyproject.toml"
   pull_request:
     paths:
       - "**.py"
-      - ".github/workflows/black-check.yml"
+      - ".github/workflows/format.yml"
       - "pyproject.toml"
 
 jobs:

@@ -15,6 +15,11 @@ requires-python = ">=3.8"
 dependencies = [
     "matplotlib",
     "numpy",
+    "astropy",
+    "scipy",
+    "scikit-learn",
+    "pandas",
+    "fitsio"
 ]
 
 [project.optional-dependencies]

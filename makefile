@@ -1,7 +1,7 @@
 .PHONY: install install-env format
 
 ENV_NAME = coruscant
-PYTHON_VERSION = 3.10
+PYTHON_VERSION = 3.13
 PACKAGE = coruscant
 
 # installation within a conda environment
