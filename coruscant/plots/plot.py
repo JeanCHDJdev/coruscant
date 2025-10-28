@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings
-import logging
 import os
 
 from pathlib import Path
@@ -205,7 +204,7 @@ class PlotManager:
             **subplot_kwargs,
         )
 
-        # For complex layouts, remove default axes and yield only the figure
+        # for complex layouts, remove default axes and yield only the figure
         if custom_layout:
             if isinstance(ax, np.ndarray):
                 for axis in ax.flat:
@@ -232,9 +231,7 @@ class PlotManager:
                         edgecolor="none",
                     )
                     saved_paths.append(file_path)
-                    logging.info(f"Saved plot: {file_path}")
 
-                # Show plot if requested
                 if self.show:
                     plt.show()
 
@@ -244,15 +241,11 @@ class PlotManager:
             try:
                 yield fig, ax
 
-                # Add labels if requested and we have multiple subplots
                 if add_labels and (nrows > 1 or ncols > 1):
                     add_subplot_labels(ax, position=label_position)
 
                 if tight_layout:
-                    try:
-                        fig.tight_layout()
-                    except Exception as e:
-                        warnings.warn(f"tight_layout failed: {e}")
+                    fig.tight_layout()
 
                 saved_paths = []
                 for file_path in file_paths:
@@ -264,7 +257,6 @@ class PlotManager:
                         edgecolor="none",
                     )
                     saved_paths.append(file_path)
-                    logging.info(f"Saved plot: {file_path}")
 
                 if self.show:
                     plt.show()
@@ -356,12 +348,10 @@ class PlotManager:
                     f"Figure {file_path} already exists. Set overwrite=True in PlotManager to overwrite it."
                 )
 
-        # Save in all requested formats
         saved_paths = []
         for file_path in file_paths:
             plt.savefig(file_path, **kwargs)
             saved_paths.append(file_path)
-            logging.info(f"Saved plot: {file_path}")
 
         return saved_paths[0] if len(saved_paths) == 1 else saved_paths
 

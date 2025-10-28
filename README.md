@@ -24,4 +24,6 @@ make install
 
 ### Format :
 ------------
-coruscant provides a format check
+coruscant provides a format checker. 
+This format checker is applied on every push and pull request in order to keep
+the code formatting consistent. The formatter is black, with default settings.
