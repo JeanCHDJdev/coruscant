@@ -189,6 +189,7 @@ class PlotManager:
         if formats is not None:
             for fmt in formats:
                 file_path = self.root / f"{name}.{fmt}"
+                file_path.parent.mkdir(parents=True, exist_ok=True)
                 file_paths.append(file_path)
                 if not self.overwrite and file_path.exists():
                     raise FileExistsError(
