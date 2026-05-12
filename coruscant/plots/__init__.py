@@ -1,1 +1,1 @@
-from .plot import PlotManager, plot_settings, add_subplot_labels  # noqa: F401
+from .plot import PlotManager, add_subplot_labels, plot_settings, verify_usetex  # noqa: F401

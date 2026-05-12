@@ -5,7 +5,7 @@ with healpy and matplotlib.
 
 import numpy as np
 import healpy as hp
-import astropy.unit as u
+import astropy.units as u
 
 from astropy.coordinates import SkyCoord
 from matplotlib.collections import PolyCollection

@@ -2,10 +2,69 @@ import numpy as np
 import matplotlib.pyplot as plt
 import warnings
 import os
+import shutil
+import tempfile
 
 from pathlib import Path
 from contextlib import contextmanager
+from functools import lru_cache
 from typing import Optional, Dict, Any, Tuple, Union
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+from matplotlib.figure import Figure
+
+
+@lru_cache(maxsize=None)
+def verify_usetex(
+    latex_preamble: Optional[str] = None,
+    test_expression: Optional[str] = None,
+) -> Tuple[bool, Optional[str]]:
+    """
+    Verify that matplotlib can render a minimal figure with ``text.usetex=True``.
+
+    Parameters
+    ----------
+    latex_preamble : str, optional
+        LaTeX preamble to test. If None, uses a conservative default preamble.
+    test_expression : str
+        Expression rendered in the validation figure.
+
+    Returns
+    -------
+    tuple
+        ``(True, None)`` when TeX rendering succeeds, otherwise ``(False, reason)``.
+    """
+    if latex_preamble is None:
+        latex_preamble = " ".join(
+            rf"\usepackage{{{package}}}"
+            for package in ("amsmath", "amssymb", "amsfonts", "bm")
+        )
+
+    if test_expression is None:
+        test_expression = r"$\alpha + \bm{\beta} \in \mathbb{R}$"
+
+    if shutil.which("latex") is None:
+        return False, "latex executable not found on PATH"
+
+    rc_settings = {
+        "text.usetex": True,
+        "text.latex.preamble": latex_preamble,
+    }
+
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir, plt.rc_context(rc=rc_settings):
+            output_path = Path(temp_dir) / "usetex-check.png"
+            fig = Figure(figsize=(1.0, 1.0))
+            FigureCanvasAgg(fig)
+            ax = fig.add_subplot(111)
+            ax.plot([0.0, 1.0], [0.0, 1.0])
+            ax.set_title(test_expression)
+            ax.set_xlabel(test_expression)
+            fig.savefig(output_path)
+            fig.clear()
+    except Exception as error:
+        return False, str(error)
+
+    return True, None
 
 
 def plot_settings(custom_settings: Optional[Dict[str, Any]] = None):
@@ -46,6 +105,30 @@ def plot_settings(custom_settings: Optional[Dict[str, Any]] = None):
 
     if custom_settings:
         default_settings.update(custom_settings)
+
+    if default_settings.get("text.usetex", False):
+        latex_preamble = default_settings.get("text.latex.preamble")
+        if isinstance(latex_preamble, (list, tuple)):
+            latex_preamble = " ".join(str(item) for item in latex_preamble)
+        elif latex_preamble is not None:
+            latex_preamble = str(latex_preamble)
+
+        latex_ok, latex_reason = verify_usetex(latex_preamble=latex_preamble)
+
+        if latex_ok:
+            default_settings["text.latex.preamble"] = latex_preamble or " ".join(
+                rf"\usepackage{{{package}}}"
+                for package in ("amsmath", "amssymb", "amsfonts", "bm")
+            )
+        else:
+            warnings.warn(
+                "text.usetex was requested but TeX rendering is unavailable; "
+                f"falling back to matplotlib text. Reason: {latex_reason}",
+                UserWarning,
+                stacklevel=2,
+            )
+            default_settings["text.usetex"] = False
+            default_settings.pop("text.latex.preamble", None)
 
     plt.rcParams.update(default_settings)
 
