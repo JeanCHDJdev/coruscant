@@ -34,10 +34,7 @@ def verify_usetex(
         ``(True, None)`` when TeX rendering succeeds, otherwise ``(False, reason)``.
     """
     if latex_preamble is None:
-        latex_preamble = " ".join(
-            rf"\usepackage{{{package}}}"
-            for package in ("amsmath", "amssymb", "amsfonts", "bm")
-        )
+        latex_preamble = " ".join(rf"\usepackage{{{package}}}" for package in ("amsmath", "amssymb", "amsfonts", "bm"))
 
     if test_expression is None:
         test_expression = r"$\alpha + \bm{\beta} \in \mathbb{R}$"
@@ -117,8 +114,7 @@ def plot_settings(custom_settings: Optional[Dict[str, Any]] = None):
 
         if latex_ok:
             default_settings["text.latex.preamble"] = latex_preamble or " ".join(
-                rf"\usepackage{{{package}}}"
-                for package in ("amsmath", "amssymb", "amsfonts", "bm")
+                rf"\usepackage{{{package}}}" for package in ("amsmath", "amssymb", "amsfonts", "bm")
             )
         else:
             warnings.warn(
@@ -400,9 +396,7 @@ class PlotManager:
             **kwargs,
         )
 
-    def save_current_figure(
-        self, name: str, formats: Union[str, list] = "png", **kwargs
-    ):
+    def save_current_figure(self, name: str, formats: Union[str, list] = "png", **kwargs):
         """
         Save the current matplotlib figure.
 

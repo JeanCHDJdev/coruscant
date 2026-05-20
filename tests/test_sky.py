@@ -3,19 +3,9 @@
 import unittest
 
 import numpy as np
-
-try:
-    import healpy  # noqa: F401
-except ImportError:
-    HEALPY_AVAILABLE = False
-else:
-    HEALPY_AVAILABLE = True
-
-if HEALPY_AVAILABLE:
-    from coruscant.sky.sky import get_fsky, sky_area, sky_overlap
+from coruscant.sky.sky import get_fsky, sky_area, sky_overlap
 
 
-@unittest.skipUnless(HEALPY_AVAILABLE, "healpy not installed")
 class SkyMaskTests(unittest.TestCase):
     """Cover the simple mask helpers with standard-library unittest."""
 

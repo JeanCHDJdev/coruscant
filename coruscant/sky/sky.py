@@ -11,9 +11,7 @@ from astropy.coordinates import SkyCoord
 from matplotlib.collections import PolyCollection
 
 
-def put_survey_on_grid(
-    ra, dec, ra_proj, dec_proj, pixels, vertices, unit="deg", smoothing=0.4 * u.deg
-):
+def put_survey_on_grid(ra, dec, ra_proj, dec_proj, pixels, vertices, unit="deg", smoothing=0.4 * u.deg):
     """
     Match survey coordinates to healpy pixels and vertices.
 
@@ -79,9 +77,7 @@ def vertices_from_pixels(pixels, inside, nside):
     return vertices[inside]
 
 
-def vertex_with_edge(
-    skmcls, vertices, var_threshold=0.05, color=None, vmin=None, vmax=None, **kwargs
-):
+def vertex_with_edge(skmcls, vertices, var_threshold=0.05, color=None, vmin=None, vmax=None, **kwargs):
     """
     Plot polygons (e.g. Healpix vertices)
 
@@ -108,9 +104,7 @@ def vertex_with_edge(
         The created PolyCollection object.
     """
     vertices_ = np.empty_like(vertices)
-    vertices_[:, :, 0], vertices_[:, :, 1] = skmcls.proj.transform(
-        vertices[:, :, 0], vertices[:, :, 1]
-    )
+    vertices_[:, :, 0], vertices_[:, :, 1] = skmcls.proj.transform(vertices[:, :, 0], vertices[:, :, 1])
 
     # remove vertices which are split at the outer meridians
     # find variance of vertice nodes large compared to dispersion of centers
@@ -123,9 +117,7 @@ def vertex_with_edge(
     zorder = kwargs.pop("zorder", 0)
     rasterized = kwargs.pop("rasterized", True)
     alpha = kwargs.pop("alpha", 1)
-    coll = PolyCollection(
-        vertices_, zorder=zorder, rasterized=rasterized, alpha=alpha, **kwargs
-    )
+    coll = PolyCollection(vertices_, zorder=zorder, rasterized=rasterized, alpha=alpha, **kwargs)
     if color is not None:
         coll.set_array(color[sel])
         coll.set_clim(vmin=vmin, vmax=vmax)
