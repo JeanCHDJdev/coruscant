@@ -10,20 +10,23 @@
 Coruscant, the world city, the ecumenopolis, capital of the Old Republic. And also my personal place to store code I find useful for cosmological pipelines, analysis, papers, plots, and more. To be built as I go !
 
 
-### Installation : 
+### Installation: 
 ------------------
 
-To install within it's own conda environment (`coruscant`)
-```bash
-make install-env
-```
-To install by appending to an existing environment through `pip`
+Coruscant installs into its own dedicated Conda environment named `coruscant`.
+The environment is defined in `environment.yaml` and installs the package in editable mode with the development tools.
+
+To create or recreate that environment, run
 ```bash
 make install
 ```
 
-### Format :
-------------
+### Format:
+-----------
 coruscant provides a format checker. 
-This format checker is applied on every push and pull request in order to keep
-the code formatting consistent. The formatter is black, with default settings.
+This format checker is checked on every pull / push request during unittests.
+
+### Tests:
+----------
+`coruscant` provides unit tests with the `unittests` module. 
+
