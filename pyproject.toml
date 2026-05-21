@@ -79,10 +79,6 @@ coruscant = { path = ".", editable = true, extras = ["dev"] }
 cmd = "bash setup.sh"
 description = "Register the default coruscant Jupyter kernel"
 
-[tool.pixi.tasks.install]
-cmd = "bash setup.sh"
-description = "Alias for setup; registers the default coruscant Jupyter kernel"
-
 [tool.pixi.tasks.test]
 cmd = "pytest"
 description = "Run the test suite"
