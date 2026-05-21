@@ -28,6 +28,7 @@ dependencies = [
 dev = [
     "black",
     "flake8",
+    "pytest",
 ]
 [tool.black]
 line-length = 120
@@ -37,6 +38,7 @@ exclude = '''
 /(
     \.git
   | \.venv
+    | \.pixi
   | build
   | dist
 )/
@@ -45,3 +47,53 @@ exclude = '''
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["coruscant*"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+requires-pixi = ">=0.68"
+
+[tool.pixi.dependencies]
+python = "3.10.*"
+astropy = "*"
+black = "*"
+fitsio = "*"
+flake8 = "*"
+healpy = "*"
+ipykernel = ">=6.0"
+matplotlib = "*"
+numpy = "*"
+pandas = "*"
+pip = "*"
+pytest = ">=8.0"
+pyyaml = "*"
+scikit-learn = "*"
+scipy = "*"
+setuptools = ">=61"
+wheel = "*"
+
+[tool.pixi.pypi-dependencies]
+coruscant = { path = ".", editable = true, extras = ["dev"] }
+
+[tool.pixi.tasks.setup]
+cmd = "bash setup.sh"
+description = "Register the default coruscant Jupyter kernel"
+
+[tool.pixi.tasks.install]
+cmd = "bash setup.sh"
+description = "Alias for setup; registers the default coruscant Jupyter kernel"
+
+[tool.pixi.tasks.test]
+cmd = "pytest"
+description = "Run the test suite"
+
+[tool.pixi.tasks.format]
+cmd = "black ."
+description = "Format the repository with Black"
+
+[tool.pixi.tasks.format-check]
+cmd = "black --check ."
+description = "Check Black formatting without writing files"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

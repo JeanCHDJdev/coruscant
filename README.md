@@ -13,20 +13,37 @@ Coruscant, the world city, the ecumenopolis, capital of the Old Republic. And al
 ### Installation: 
 ------------------
 
-Coruscant installs into its own dedicated Conda environment named `coruscant`.
-The environment is defined in `environment.yaml` and installs the package in editable mode with the development tools.
-
-To create or recreate that environment, run
+Coruscant uses `pixi` for environment management and editable installation.
+To create the environment and register the default Jupyter kernel, run
 ```bash
-make install
+pixi run setup
+```
+
+To enter the environment interactively, run
+```bash
+pixi shell
 ```
 
 ### Format:
 -----------
-coruscant provides a format checker. 
-This format checker is checked on every pull / push request during unittests.
+Coruscant provides Black-based formatting tasks.
+
+To format the repository, run
+```bash
+pixi run format
+```
+
+To check formatting without modifying files, run
+```bash
+pixi run format-check
+```
 
 ### Tests:
 ----------
-`coruscant` provides unit tests with the `unittests` module. 
+`coruscant` runs its test suite with `pytest`.
+
+To run the tests, use
+```bash
+pixi run test
+```
 
